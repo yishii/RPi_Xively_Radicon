@@ -1,39 +1,26 @@
-#include <stdio.h>              // printf(), fgets()
-#include <stdlib.h>             // exit()
-#include <string.h>             // strtok() and strcmp()
-#include <unistd.h>             // usleep();
+/*
+  RaspberryPi Radicon with Xively
 
-#include <libfirmata.h>         // firmata_functions.
-#include <port_list.h>          // port list
+  Coded by Yasuhiro ISHII
+
+  This software is distributed under the license of Apache2.0
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <libfirmata.h>
+#include <port_list.h>
+#include "controller.h"
 
 #define PIN_GAMEPAD_ANALOG_X 14
 #define PIN_GAMEPAD_ANALOG_Y 15
 
-struct GAMEPAD {
-    int analog_x;
-    int analog_y;
-};
-
-int init_gamepad(void);
-int capture_gamepad(struct GAMEPAD* pad);
-
-
+#if 0
 int main(int argc, char *argv[]){
     struct GAMEPAD gp;
-
-    if(argc != 2)
-        argv[1] = "/dev/ttyACM0";
-    
-    firmata_pre_init();
-
-    /* Open the device */
-    int status = firmata_init(argv[1], 57600);
-    if(status == 1) {
-	printf("error!\n");
-        firmata_close();
-        exit(status);
-    }
-    
+   
     init_gamepad();
     
     while(1){
@@ -45,9 +32,13 @@ int main(int argc, char *argv[]){
     firmata_close();
     return 0;
 }
+#endif
 
-int init_gamepad(void)
+int init_gamepad(char* device)
 {
+    firmata_pre_init();
+    firmata_init(device,57600);
+
     set_pin_mode(PIN_GAMEPAD_ANALOG_X,MODE_ANALOG);
     set_pin_mode(PIN_GAMEPAD_ANALOG_Y,MODE_ANALOG);
 
