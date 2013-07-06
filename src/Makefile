@@ -39,7 +39,7 @@ clean:
 	@echo "Clean project =========================================="
 	rm -fr $(TARGET) $(OBJS)
 	make -C $(XIVELYLIBDIR) clean
-	make -C $(ARDUINOLIBDIR) clean
+	make -C $(ARDUINOLIBBASEDIR) clean
 
 purge:
 	rm -f *~ *bak
